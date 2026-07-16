@@ -1,0 +1,41 @@
+[project]
+name = "perfosim-pro"
+version = "3.1.0"
+description = "Niger Delta Perforation & Hydraulic Fracturing Optimization Framework"
+requires-python = ">=3.10"
+readme = "README.md"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra --strict-markers"
+filterwarnings = [
+    "ignore::DeprecationWarning:streamlit.*",
+    "ignore::sklearn.exceptions.ConvergenceWarning",
+]
+
+[tool.coverage.run]
+source = ["modules", "views"]
+omit = ["*/tests/*", "*/__pycache__/*"]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+exclude_lines = ["pragma: no cover", "if __name__ == .__main__.:", "raise NotImplementedError"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+exclude = ["tests/_smoke_*.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = [
+    "E501",  # line length is enforced loosely for readable inline UI code
+    "E741",  # short physics-notation variable names (k, h, mu, Bo, ...) are intentional
+    "E701",  # compact `if x: y` one-liners are used intentionally for short UI branches
+    "E702",  # compact `a; b` statements are used intentionally for short UI branches
+]
+
+[tool.ruff.lint.per-file-ignores]
+"views/*.py" = ["F401"]  # some view-level imports are for type/context clarity
